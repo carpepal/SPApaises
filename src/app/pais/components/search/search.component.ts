@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
 import { Country } from '../../interfaces/countryInterface';
 import { PaisService } from '../../services/pais.service';
@@ -6,11 +6,20 @@ import { PaisService } from '../../services/pais.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  styles:[
+    `
+      li{
+        cursor: pointer;
+      }
+    `
+  ]
 })
 export class SearchComponent implements OnInit{
 
   constructor(private paisService: PaisService) { }
+
+
 
   ngOnInit(): void {
     this.debouncer.pipe(debounceTime(500)).subscribe((valor)=>{
@@ -24,6 +33,7 @@ export class SearchComponent implements OnInit{
   termino: string = '';
   @Output() onEnter : EventEmitter<string> = new EventEmitter<string>();
   @Output() onDebounce : EventEmitter<string> = new EventEmitter<string>();
+  @Input() paises: Country[] = [];
 
   debouncer: Subject<String> = new Subject<String>();
 

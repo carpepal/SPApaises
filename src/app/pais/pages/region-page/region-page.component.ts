@@ -13,18 +13,23 @@ export class RegionPageComponent {
 
   constructor(private paisService: PaisService) { }
 
+  regiones : string[] = ['africa' , 'america' , 'asia' , 'europe' , 'oceania'];
+  regionActiva : string = '';
 
 
-  termino: string = '';
   hayerror: boolean = false;
   paises: Country[] = [];
 
-  buscar(termino : string ){
+  activarRegion(region : string){
+    this.regionActiva = region;
+    this.buscar()
+  }
+
+
+  buscar(){
     this.paises = [];
     this.hayerror = false;
-    this.termino = termino;
-    console.log(this.termino);
-    this.paisService.buscarPaisPorRegion(this.termino).subscribe((data) => {
+    this.paisService.buscarPaisPorRegion(this.regionActiva).subscribe((data) => {
       console.log(data);
       this.paises = data;
     } , (err)=>{
